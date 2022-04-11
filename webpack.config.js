@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require("webpack")
 const HtmlwebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
@@ -24,7 +25,8 @@ module.exports = {
                 test: /\.(css)$/,
                 use: [
                     "style-loader",
-                    "css-loader"
+                    "css-loader",
+                    "postcss-loader"//css兼容不同的浏览器
                 ]
             },
             //处理less
@@ -33,7 +35,8 @@ module.exports = {
                 use: [
                     "style-loader",
                     "css-loader",
-                    "less-loader"
+                    "less-loader",
+                    "postcss-loader"//css兼容不同的浏览器
                 ]
             },
             //处理图片
@@ -43,10 +46,10 @@ module.exports = {
                     {
                         loader: "url-loader",
                         options: {
-                            limit:8192,//小于8k,用url-loader转换成base64,否则使用file-loader来处理文件
+                            limit:9192,//小于8k,用url-loader转换成base64,否则使用file-loader来处理文件
                             fallback:{
                                 loader:'file-loader',
-                                option:{
+                                options:{
                                     name:'[name].[hash:8].[ext]',
                                     outputPath:'images/'
                                 }
@@ -57,7 +60,7 @@ module.exports = {
             },
             //媒体文件
             {
-                test:/\\.(mp4|webm|ogg|mp3|wav|flac|aac)(\\?.*)?$/,
+                test:/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
                 use:[
                     {
                         loader: "url-loader",
@@ -65,7 +68,7 @@ module.exports = {
                             limit:8192,
                             fallback:{
                                 loader:'file-loader',
-                                option:{
+                                options:{
                                     name:'[name].[hash:8].[ext]',
                                     outputPath:'media/'
                                 }
@@ -83,7 +86,7 @@ module.exports = {
                             limit:1,
                             fallback:{
                                 loader:'file-loader',
-                                option:{
+                                options:{
                                     name:'[name].[hash:8].[ext]',
                                     outputPath:'fonts/'
                                 }
@@ -92,6 +95,15 @@ module.exports = {
                     }
                 ]
             },
+            {
+                test:/\.vue$/,
+                use: ["vue-loader"]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: ["babel-loader"]
+            }
         ]
     },
     plugins: [
