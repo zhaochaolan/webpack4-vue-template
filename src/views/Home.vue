@@ -4,6 +4,7 @@
     <div>'vuex-getter:'{{getText}}</div>
     <button @click="setText(456)">修改text</button>
     <button @click="add(123)">修改text</button>
+    <div class="img"></div>
   </div>
 </template>
 <script>

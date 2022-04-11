@@ -54,6 +54,7 @@
   ],
   "sideEffects": [
     "*.css",
-    "*.vue"
+    "*.vue",
+    "*.less"
   ]
 }
